@@ -5,8 +5,7 @@ $id = $_GET['id'];
 
 // Fetch the task data based on ID
 try {
-    $pdo = new PDO("mysql:host=$server;dbname=$db;", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = getCon();
     $stmt = $pdo->prepare("SELECT * FROM crud WHERE id=:id");
     $stmt->bindParam(':id', $id);
     $stmt->execute();
@@ -30,13 +29,11 @@ $pdo = null;
     <h2>Edit Contact</h2>
     <form class="form" action="edit_process.php" method="post">
         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-        <label for="">Name</label>
-        <input type="text" name="name" value="<?php echo $row['name']; ?>" required>
+        <label for="">Tache</label>
+        <input type="text" name="tache" value="<?php echo $row['tache']; ?>" required>
         <label for="">Email</label>
-        <input type="email" name="email" value="<?php echo $row['email']; ?>" required>
-        <label for="">Phone</label>
-        <input type="number" name="phone" value="<?php echo $row['phone']; ?>" required>
-        <input type="submit" value="Edit">
+        <input type="date" name="date" value="<?php echo $row['date']; ?>" required>
+       <input type="submit" value=" edit">
     </form>
 </body>
 </html>

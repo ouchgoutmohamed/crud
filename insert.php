@@ -1,24 +1,28 @@
 <?php
 include("config.php");
 
-$name = $_POST['name'];
-$email = $_POST['email'];
-$phone = $_POST['phone'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    $tache = isset($_POST['tache']) ? $_POST['tache'] : '';
+    $date = isset($_POST['date']) ? $_POST['date'] : '';
 
-try{
-    $pdo = new PDO("mysql:host=$server;dbname=$db;",$username,$password);
-    $pdo->setattribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    $stmt = $pdo->prepare("INSERT INTO crud (name, email, phone) VALUES (:name, :email, :phone)");
+    try {
+        $pdo = getCon();
+        $status='en cours';
+        
+        $stmt = $pdo->prepare("INSERT INTO crud (tache, date, status) VALUES (:tache, :date, :status)");
 
-    // Bind parameters
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':phone', $phone);
-     $stmt->execute();
+        
+        $stmt->bindParam(':tache', $tache);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':status', $status);
+        $stmt->execute();
 
-     header("Location: affichage.php"); 
-}catch(PDOexception $e){
-    echo "". $e->getMessage();
+        header("Location: crud.php");
+    } catch (PDOException $e) {
+        echo "" . $e->getMessage();
+    }
+
+    $pdo = null;
 }
-$pdo = null;
 ?>

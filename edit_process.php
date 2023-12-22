@@ -2,18 +2,17 @@
 include("config.php");
 
 $id = $_POST['id'];
-$name = $_POST['name'];
-$email = $_POST['email'];
-$phone = $_POST['phone'];
+$tache = $_POST['tache'];
+$date = $_POST['date'];
+
 
 try {
-    $pdo = new PDO("mysql:host=$server;dbname=$db;", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $pdo->prepare("UPDATE crud SET name=:name, email=:email, phone=:phone WHERE id=:id");
+    $pdo = getCon();
+    $stmt = $pdo->prepare("UPDATE crud SET tache= :tache, date =:date  WHERE id=:id");
     $stmt->bindParam(':id', $id);
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':tache', $tache);
+    $stmt->bindParam(':date', $date);
+    
     $stmt->execute();
 
     header("Location: crud.php");
